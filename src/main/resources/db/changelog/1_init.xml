@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-schema" author="Arsen" context="local">
+        <sqlFile path="db/init.sql" dbms="postgresql"/>
+    </changeSet>
+
+    <changeSet id="1" author="Arsen">
+        <createTable tableName="app_user">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKeyName="app_user_pk" primaryKey="true"/>
+            </column>
+            <column name="first_name" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tfa_enabled" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email_confirmed" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="app_user" indexName="app_user_idx1">
+            <column name="email"/>
+        </createIndex>
+
+        <createTable tableName="login_history">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKeyName="login_history_pk" primaryKey="true"/>
+            </column>
+            <column name="ip" type="varchar(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="login_history" indexName="login_history_idx1">
+            <column name="ip"/>
+        </createIndex>
+        
+        <createTable tableName="confirmation_token">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKeyName="email_confirmation_pk" primaryKey="true"/>
+            </column>
+            <column name="token" type="varchar(2048)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="confirmation_token" indexName="email_confirmation_idx1">
+            <column name="token"/>
+        </createIndex>
+
+    </changeSet>
+</databaseChangeLog>

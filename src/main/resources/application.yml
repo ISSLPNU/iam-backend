@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: iam-backend
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog-master.xml
+    database-change-log-lock-table: dbchangeloglock_issl_pnu
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  profiles:
+    active: ${ISSL_PNU_ACTIVE_PROFILE:local}
+
+server:
+  port: ${ISSL_PNU_PORT:6000}
+
+mailing:
+  email:
+    replyTo: no-reply@isslupnu.ua
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  liquibase:
+    contexts: local
+    user: postgres
+    password: postgres
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/iam_isslpnu_db
+    username: iam_isslpnu_user
+    password: 12345
+
+  mail:
+    host: 127.0.0.1
+    port: 1085
+    protocol: smtp
+    default-encoding: UTF-8
+
+  jpa:
+    show-sql: true
