@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,7 +18,7 @@ public class BaseEntity {
     @Id
     @Column(name = "id")
     @UuidGenerator
-    private String id;
+    private UUID id;
 
     @Override
     public boolean equals(Object o) {

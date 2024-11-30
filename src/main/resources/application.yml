@@ -6,6 +6,15 @@ spring:
     enabled: true
     change-log: classpath:db/changelog-master.xml
     database-change-log-lock-table: dbchangeloglock_issl_pnu
+    liquibase-schema: liquibase
+    default-schema: iam_isslpnu
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: ${spring.liquibase.default-schema}
 
   mvc:
     pathmatch:
@@ -39,16 +48,22 @@ spring:
     password: 12345
 
   mail:
-    host: 127.0.0.1
-    port: 1085
+    host: localhost
+    port: 1025
     protocol: smtp
     default-encoding: UTF-8
+    test-connection: true
 
   jpa:
     show-sql: true
 
-default_ttl: 30
+default_ttl:
+  confirmation_action: 30
+
+auth:
+  max_attempts: 5
+  period: 10
 
 url:
   frontend_base: localhost:3000
-  action: ${url.frontend_base}/action/{action}/{token}
+  action: ${url.frontend_base}/action/{token}

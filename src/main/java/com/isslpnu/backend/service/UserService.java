@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Service
 public class UserService extends AbstractService<User> {
@@ -22,7 +25,7 @@ public class UserService extends AbstractService<User> {
     }
 
     @Override
-    protected JpaRepository<User, String> getRepository() {
+    protected JpaRepository<User, UUID> getRepository() {
         return repository;
     }
 

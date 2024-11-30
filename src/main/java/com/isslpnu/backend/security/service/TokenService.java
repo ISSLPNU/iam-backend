@@ -18,7 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
+import static com.isslpnu.backend.security.constant.RequestHeaders.ALB_CLIENT_IP;
 import static com.isslpnu.backend.security.constant.SecurityConstant.ROLE_PREFIX;
 import static com.isslpnu.backend.security.constant.TokenClaims.CLAIM_ACTION;
 import static com.isslpnu.backend.security.constant.TokenClaims.CLAIM_ROLE;
@@ -28,12 +30,10 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class TokenService {
 
-    private static final String ALB_CLIENT_IP = "X-Forward-For";
-
     private final JwtService jwtService;
 
-    public String generateToken(String id, Role role) {
-        return jwtService.generateToken(id, Map.of(CLAIM_ROLE, role.name()));
+    public String generateToken(UUID id, Role role) {
+        return jwtService.generateToken(id.toString(), Map.of(CLAIM_ROLE, role.name()));
     }
 
     public String generateToken(String email, AuthenticationAction action) {

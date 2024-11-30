@@ -7,15 +7,16 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, String> {
+public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, UUID> {
 
     List<ConfirmationToken> findAllByCreatedAtBefore(LocalDateTime date);
 
-    Optional<ConfirmationToken> findByTokenAndCreatedAtAfter(String token, LocalDateTime now);
+    Optional<ConfirmationToken> findByTokenAndCreatedAtAfter(String token, LocalDateTime dateTime);
 
-    List<ConfirmationToken> findTop100ByCreatedAtAfter(LocalDateTime now);
+    List<ConfirmationToken> findTop100ByCreatedAtBefore(LocalDateTime dateTime);
 
 
 }

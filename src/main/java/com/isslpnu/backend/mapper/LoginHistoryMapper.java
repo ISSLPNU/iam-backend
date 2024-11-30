@@ -6,7 +6,7 @@ import com.isslpnu.backend.security.util.SessionInfo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {SessionInfo.class})
+@Mapper(componentModel = "spring", imports = {SessionInfo.class})
 public interface LoginHistoryMapper {
 
     @Mapping(target = "ip", expression = "java(SessionInfo.getIp())")

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(schema = "login_history")
+@Table(name = "login_history")
 public class LoginHistory extends AuditableEntity {
 
     @Column(name = "ip")

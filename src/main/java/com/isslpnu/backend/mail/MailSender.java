@@ -24,7 +24,7 @@ public abstract class MailSender {
         try {
             sendMail(convertToSimpleMessage(request));
         } catch (Exception e) {
-            log.error("Error on sending email to {}.", request.getSendTo());
+            log.error("Error on sending email to {}.", request.getSendTo(), e);
         }
     }
 
@@ -34,6 +34,7 @@ public abstract class MailSender {
         message.setSubject(messageSource.getMessage(request.getSubjectCode(), request.getSubjectArgs(), Locale.getDefault()));
         message.setTo(request.getSendTo().toArray(String[]::new));
         message.setReplyTo(replyTo);
+        message.setFrom(replyTo);
         return message;
     }
 

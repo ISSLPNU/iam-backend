@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(schema = "app_user")
+@Table(name = "app_user")
 public class User extends BaseEntity {
 
     @Column(name = "first_name")
