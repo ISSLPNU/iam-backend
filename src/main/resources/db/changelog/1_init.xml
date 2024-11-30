@@ -50,6 +50,7 @@
             <column name="status" type="varchar(30)">
                 <constraints nullable="false"/>
             </column>
+            <column name="error" type="text"/>
             <column name="created_at" type="timestamp">
                 <constraints nullable="false"/>
             </column>
@@ -58,7 +59,7 @@
         <createIndex tableName="login_history" indexName="login_history_idx1">
             <column name="ip"/>
         </createIndex>
-        
+
         <createTable tableName="confirmation_token">
             <column name="id" type="uuid">
                 <constraints nullable="false" primaryKeyName="email_confirmation_pk" primaryKey="true"/>

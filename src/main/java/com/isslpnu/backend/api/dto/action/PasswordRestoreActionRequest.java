@@ -1,4 +1,4 @@
-package com.isslpnu.backend.api.dto;
+package com.isslpnu.backend.api.dto.action;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -6,10 +6,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SingInRequest {
+public class PasswordRestoreActionRequest extends AuthenticationActionRequest {
 
-    @NotBlank
-    private String email;
     @NotBlank
     private String password;
 

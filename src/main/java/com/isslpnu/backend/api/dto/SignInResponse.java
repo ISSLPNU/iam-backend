@@ -1,14 +1,14 @@
 package com.isslpnu.backend.api.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthenticationActionRequest {
+public class SignInResponse {
 
-    @NotBlank
     private String token;
+    private boolean twoFactor;
+    private boolean emailConfirmed;
 
 }

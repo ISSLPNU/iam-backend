@@ -11,8 +11,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-
 @RequiredArgsConstructor
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -21,7 +19,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        tokenService.authenticate(request.getHeader(AUTHORIZATION));
+        tokenService.createSession(request);
         filterChain.doFilter(request, response);
     }
 }

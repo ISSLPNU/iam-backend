@@ -1,5 +1,6 @@
 package com.isslpnu.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.isslpnu.backend.constant.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,10 +22,11 @@ public class User extends BaseEntity {
     private String lastName;
     @Column(name = "email")
     private String email;
+    @JsonIgnore
     @Column(name = "password")
     private String password;
     @Column(name = "tfa_enabled")
-    private String tfaEnabled;
+    private boolean tfaEnabled;
     @Column(name = "email_confirmed")
     private boolean emailConfirmed;
     @Enumerated(EnumType.STRING)

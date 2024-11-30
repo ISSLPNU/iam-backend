@@ -13,6 +13,9 @@ public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationT
 
     List<ConfirmationToken> findAllByCreatedAtBefore(LocalDateTime date);
 
-    Optional<ConfirmationToken> findByToken(String token);
+    Optional<ConfirmationToken> findByTokenAndCreatedAtAfter(String token, LocalDateTime now);
+
+    List<ConfirmationToken> findTop100ByCreatedAtAfter(LocalDateTime now);
+
 
 }

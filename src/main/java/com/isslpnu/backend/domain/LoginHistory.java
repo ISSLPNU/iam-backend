@@ -16,14 +16,14 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(schema = "login_history")
-public class LoginHistory extends BaseEntity {
+public class LoginHistory extends AuditableEntity {
 
     @Column(name = "ip")
     private String ip;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private LoginStatus status;
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "error")
+    private String error;
+
 }

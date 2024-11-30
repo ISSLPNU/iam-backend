@@ -1,12 +1,15 @@
 package com.isslpnu.backend.mail.model;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Getter
-@Setter
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class SendEmailRequest {
 
     private String messageCode;
@@ -15,4 +18,7 @@ public class SendEmailRequest {
     private Object[] subjectArgs;
     private Set<String> sendTo;
 
+    public static SendEmailRequestBuilder builder(){
+        return new SendEmailRequestBuilder();
+    }
 }

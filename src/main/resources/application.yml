@@ -46,3 +46,9 @@ spring:
 
   jpa:
     show-sql: true
+
+default_ttl: 30
+
+url:
+  frontend_base: localhost:3000
+  action: ${url.frontend_base}/action/{action}/{token}

@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -21,6 +23,11 @@ public class WebSecurityConfiguration {
 
     @Autowired
     private SecurityFilter securityFilter;
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+    }
 
     @Bean
     public SecurityFilterChain configureSecurity(HttpSecurity httpSecurity) throws Exception {
