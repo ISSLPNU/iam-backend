@@ -118,6 +118,11 @@ public class AuthenticationService {
     @Transactional
     public void restorePassword(PasswordRestoreRequest request) {
         User user = userService.getByEmail(request.getEmail());
+        ConfirmationToken existingToken = confirmationTokenService.getByUserIdAndAction(user.getId(), AuthenticationAction.PASSWORD_RESTORE, LocalDateTime.now().minusMinutes(actionTtl));
+        if (Objects.nonNull(existingToken)) {
+            return;
+        }
+
         String token = tokenService.generateToken(user.getEmail(), AuthenticationAction.PASSWORD_RESTORE);
         confirmationTokenService.create(token, user.getId(), AuthenticationAction.PASSWORD_RESTORE);
 

@@ -69,5 +69,5 @@ auth:
   period: 10
 
 url:
-  frontend_base: localhost:5173
+  frontend_base: http://localhost:5173
   action: ${url.frontend_base}/action/{token}
