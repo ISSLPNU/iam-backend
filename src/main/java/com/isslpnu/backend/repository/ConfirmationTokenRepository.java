@@ -12,8 +12,6 @@ import java.util.UUID;
 @Repository
 public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, UUID> {
 
-    List<ConfirmationToken> findAllByCreatedAtBefore(LocalDateTime date);
-
     Optional<ConfirmationToken> findByTokenAndCreatedAtAfter(String token, LocalDateTime dateTime);
 
     List<ConfirmationToken> findTop100ByCreatedAtBefore(LocalDateTime dateTime);

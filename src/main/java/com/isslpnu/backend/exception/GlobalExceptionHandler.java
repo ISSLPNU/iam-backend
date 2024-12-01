@@ -6,12 +6,15 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestControllerAdvice
@@ -39,9 +42,12 @@ public class GlobalExceptionHandler {
         List<String> errors = result.getGlobalErrors().stream()
                 .map(error -> messageSource.getMessage(error, Locale.getDefault()))
                 .toList();
+        Map<String, String> fieldErrors = result.getFieldErrors().stream()
+                .collect(Collectors.toMap(FieldError::getField, error -> messageSource.getMessage(error, Locale.getDefault())));
         return ErrorDto.builder()
                 .message("Validation Error")
                 .errors(errors)
+                .fieldErrors(fieldErrors)
                 .build();
     }
 

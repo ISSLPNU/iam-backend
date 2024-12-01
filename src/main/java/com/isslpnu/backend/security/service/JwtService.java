@@ -16,11 +16,11 @@ import java.util.Map;
 @Service
 public class JwtService {
 
-    @Value("${timetable.security.secret:TimetableTopApplication}")
+    @Value("${security.secret}")
     private String jwtSecret;
-    @Value("${timetable.security.lifetime:172800}")
+    @Value("${security.lifetime}")
     private int lifetime;
-    @Value("${timetable.security.starts:Bearer}")
+    @Value("${security.starts}")
     private String tokenStarts;
 
     private JWTVerifier verifier;

@@ -24,7 +24,7 @@ spring:
     active: ${ISSL_PNU_ACTIVE_PROFILE:local}
 
 server:
-  port: ${ISSL_PNU_PORT:6000}
+  port: ${ISSL_PNU_PORT:7000}
 
 mailing:
   email:
@@ -52,10 +52,14 @@ spring:
     port: 1025
     protocol: smtp
     default-encoding: UTF-8
-    test-connection: true
 
   jpa:
     show-sql: true
+
+security:
+  secret: SecuritySecret
+  lifetime: 172800
+  starts: Bearer
 
 default_ttl:
   confirmation_action: 30
