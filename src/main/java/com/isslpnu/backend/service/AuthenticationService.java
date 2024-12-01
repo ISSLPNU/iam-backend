@@ -9,12 +9,13 @@ import com.isslpnu.backend.constant.LoginStatus;
 import com.isslpnu.backend.domain.ConfirmationToken;
 import com.isslpnu.backend.domain.User;
 import com.isslpnu.backend.exception.ValidationException;
-import com.isslpnu.backend.mail.MailHelper;
+import com.isslpnu.backend.mail.event.MailEvent;
 import com.isslpnu.backend.mail.model.SendEmailRequest;
 import com.isslpnu.backend.mapper.AuthMapper;
 import com.isslpnu.backend.security.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,12 +34,12 @@ public class AuthenticationService {
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     private final AuthMapper mapper;
-    private final MailHelper mailHelper;
-    private final TokenService tokenService;
     private final UserService userService;
+    private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;
     private final TwoFactorService twoFactorService;
     private final LoginHistoryService loginHistoryService;
+    private final ApplicationEventPublisher eventPublisher;
     private final ConfirmationTokenService confirmationTokenService;
 
     @Value("${url.action}")
@@ -91,8 +92,7 @@ public class AuthenticationService {
                 .subjectCode("notification.twoFactor.subject")
                 .sendTo(user.getEmail())
                 .build();
-        mailHelper.sendMailAfterCommit(sendEmailRequest);
-
+        eventPublisher.publishEvent(new MailEvent(sendEmailRequest));
         return createdToken.getToken();
     }
 
@@ -112,7 +112,7 @@ public class AuthenticationService {
                 .subjectCode("notification.signUp.confirm.subject")
                 .sendTo(request.getEmail())
                 .build();
-        mailHelper.sendMailAfterCommit(sendEmailRequest);
+        eventPublisher.publishEvent(new MailEvent(sendEmailRequest));
     }
 
     @Transactional
@@ -133,6 +133,6 @@ public class AuthenticationService {
                 .subjectCode("notification.passwordRestore.subject")
                 .sendTo(request.getEmail())
                 .build();
-        mailHelper.sendMailAfterCommit(sendEmailRequest);
+        eventPublisher.publishEvent(new MailEvent(sendEmailRequest));
     }
 }
