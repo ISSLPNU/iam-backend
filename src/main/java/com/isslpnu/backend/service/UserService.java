@@ -1,8 +1,11 @@
 package com.isslpnu.backend.service;
 
+import com.isslpnu.backend.api.dto.UserDetailsDto;
 import com.isslpnu.backend.domain.User;
 import com.isslpnu.backend.exception.NotFoundException;
+import com.isslpnu.backend.mapper.UserMapper;
 import com.isslpnu.backend.repository.UserRepository;
+import com.isslpnu.backend.security.util.SessionInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,7 @@ import java.util.UUID;
 @Service
 public class UserService extends AbstractService<User> {
 
+    private final UserMapper mapper;
     private final UserRepository repository;
 
     public boolean existsByEmail(String email) {
@@ -21,6 +25,10 @@ public class UserService extends AbstractService<User> {
 
     public User getByEmail(String email) {
         return repository.getByEmail(email).orElseThrow(() -> new NotFoundException(User.class, email));
+    }
+
+    public UserDetailsDto whoami() {
+        return mapper.asUserDetailsDto(getOne(SessionInfo.getUserId()));
     }
 
     @Override

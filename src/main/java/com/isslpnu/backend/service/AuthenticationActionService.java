@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
-@Transactional
 @Service
 @RequiredArgsConstructor
 public class AuthenticationActionService {
@@ -35,6 +34,7 @@ public class AuthenticationActionService {
     @Value("${default_ttl.confirmation_action}")
     private int actionTtl;
 
+    @Transactional
     public void confirmSignUp(AuthenticationActionRequest request) {
         String email = tokenService.decodeTokenFromRequest(request, AuthenticationAction.SIGN_UP_CONFIRMATION);
         ConfirmationToken confirmationToken = confirmationTokenService.getByToken(request.getToken(), LocalDateTime.now().minusMinutes(actionTtl));
@@ -44,6 +44,7 @@ public class AuthenticationActionService {
         confirmationTokenService.delete(confirmationToken);
     }
 
+    @Transactional
     public SignInResponse twoFactorConfirm(TwoFactorRequest request) {
         String email = tokenService.decodeTokenFromRequest(request, AuthenticationAction.TWO_FACTOR);
         ConfirmationToken confirmationToken = confirmationTokenService.getByToken(request.getToken(), LocalDateTime.now().minusMinutes(actionTtl));
@@ -60,6 +61,7 @@ public class AuthenticationActionService {
         return authMapper.asSignInResponse(tokenService.generateToken(user.getId(), user.getRole()), false);
     }
 
+    @Transactional
     public void restorePasswordConfirm(PasswordRestoreActionRequest request) {
         String email = tokenService.decodeTokenFromRequest(request, AuthenticationAction.PASSWORD_RESTORE);
         ConfirmationToken confirmationToken = confirmationTokenService.getByToken(request.getToken(), LocalDateTime.now().minusMinutes(actionTtl));
