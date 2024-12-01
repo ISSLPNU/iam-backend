@@ -15,13 +15,14 @@ public interface AuthMapper {
     @Mapping(target = "role", constant = "USER")
     User asUser(SingUpRequest request);
 
+    @Mapping(target = "emailConfirmed", constant = "true")
+    SignInResponse asSignInResponse(String token, boolean twoFactor);
+
     default SignInResponse asSignInResponse(boolean twoFactor, boolean emailConfirmed) {
         return SignInResponse.builder()
+                .twoFactor(emailConfirmed)
                 .twoFactor(twoFactor)
-                .emailConfirmed(emailConfirmed)
                 .build();
     }
-
-    SignInResponse asSignInResponse(String token);
 
 }

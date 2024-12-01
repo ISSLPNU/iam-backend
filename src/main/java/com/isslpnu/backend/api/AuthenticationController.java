@@ -1,11 +1,12 @@
 package com.isslpnu.backend.api;
 
-import com.isslpnu.backend.api.dto.SignInResponse;
-import com.isslpnu.backend.api.dto.action.AuthenticationActionRequest;
 import com.isslpnu.backend.api.dto.PasswordRestoreRequest;
+import com.isslpnu.backend.api.dto.SignInResponse;
 import com.isslpnu.backend.api.dto.SingInRequest;
 import com.isslpnu.backend.api.dto.SingUpRequest;
+import com.isslpnu.backend.api.dto.action.AuthenticationActionRequest;
 import com.isslpnu.backend.api.dto.action.PasswordRestoreActionRequest;
+import com.isslpnu.backend.api.dto.action.TwoFactorRequest;
 import com.isslpnu.backend.api.validator.SignUpValidator;
 import com.isslpnu.backend.service.AuthenticationActionService;
 import com.isslpnu.backend.service.AuthenticationService;
@@ -48,17 +49,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/action/confirmSignUp")
-    public void confirmSignUp(@RequestBody AuthenticationActionRequest request) {
+    public void confirmSignUp(@Valid @RequestBody AuthenticationActionRequest request) {
         actionService.confirmSignUp(request);
     }
 
     @PostMapping("/action/twoFactorConfirm")
-    public void twoFactorConfirm(@RequestBody AuthenticationActionRequest request) {
-        actionService.twoFactorConfirm(request);
+    public SignInResponse twoFactorConfirm(@Valid @RequestBody TwoFactorRequest request) {
+        return actionService.twoFactorConfirm(request);
     }
 
     @PostMapping("/action/restorePasswordConfirm")
-    public void restorePasswordConfirm(@RequestBody PasswordRestoreActionRequest request) {
+    public void restorePasswordConfirm(@Valid @RequestBody PasswordRestoreActionRequest request) {
         actionService.restorePasswordConfirm(request);
     }
 }

@@ -1,5 +1,6 @@
 package com.isslpnu.backend.repository;
 
+import com.isslpnu.backend.constant.AuthenticationAction;
 import com.isslpnu.backend.domain.ConfirmationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,9 @@ public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationT
 
     Optional<ConfirmationToken> findByTokenAndCreatedAtAfter(String token, LocalDateTime dateTime);
 
-    List<ConfirmationToken> findTop100ByCreatedAtBefore(LocalDateTime dateTime);
+    ConfirmationToken findByUserIdAndActionAndCreatedAtAfter(UUID userId, AuthenticationAction action, LocalDateTime dateTime);
+
+    List<ConfirmationToken> findTop100ByActionAndCreatedAtBefore(AuthenticationAction action, LocalDateTime dateTime);
 
 
 }

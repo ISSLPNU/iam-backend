@@ -2,7 +2,6 @@ package com.isslpnu.backend.service;
 
 import com.isslpnu.backend.constant.LoginStatus;
 import com.isslpnu.backend.domain.LoginHistory;
-import com.isslpnu.backend.domain.User;
 import com.isslpnu.backend.mapper.LoginHistoryMapper;
 import com.isslpnu.backend.repository.LoginHistoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +20,12 @@ public class LoginHistoryService extends AbstractService<LoginHistory> {
 
     private final LoginHistoryMapper mapper;
     private final LoginHistoryRepository repository;
+
+    @Async
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void create(LoginStatus status) {
+        create(status, null);
+    }
 
     @Async
     @Transactional(propagation = Propagation.REQUIRES_NEW)

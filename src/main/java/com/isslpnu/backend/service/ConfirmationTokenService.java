@@ -3,9 +3,9 @@ package com.isslpnu.backend.service;
 import com.isslpnu.backend.constant.AuthenticationAction;
 import com.isslpnu.backend.domain.ConfirmationToken;
 import com.isslpnu.backend.exception.NotFoundException;
+import com.isslpnu.backend.mapper.ConfirmationTokenMapper;
 import com.isslpnu.backend.repository.ConfirmationTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,22 +17,24 @@ import java.util.UUID;
 @Service
 public class ConfirmationTokenService extends AbstractService<ConfirmationToken> {
 
+    private final ConfirmationTokenMapper mapper;
     private final ConfirmationTokenRepository repository;
 
-    public void create(String token, UUID userId) {
-        ConfirmationToken confirmationToken = new ConfirmationToken();
-        confirmationToken.setToken(token);
-        confirmationToken.setUserId(userId);
-        super.create(confirmationToken);
+    public ConfirmationToken create(String token, UUID userId, AuthenticationAction action) {
+        return super.create(mapper.asConfirmationToken(token, userId, action));
     }
 
-    public ConfirmationToken findByToken(String token, LocalDateTime dateTime) {
+    public ConfirmationToken getByToken(String token, LocalDateTime dateTime) {
         return repository.findByTokenAndCreatedAtAfter(token, dateTime)
                 .orElseThrow(() -> new NotFoundException(ConfirmationToken.class, token));
     }
 
-    public List<ConfirmationToken> findTop100ByCreatedAtBefore(LocalDateTime date) {
-        return repository.findTop100ByCreatedAtBefore(date);
+    public ConfirmationToken getByUserIdAndAction(UUID userId, AuthenticationAction action, LocalDateTime dateTime) {
+        return repository.findByUserIdAndActionAndCreatedAtAfter(userId, action, dateTime);
+    }
+
+    public List<ConfirmationToken> getTop100ByCreatedAtBefore(AuthenticationAction action, LocalDateTime date) {
+        return repository.findTop100ByActionAndCreatedAtBefore(action, date);
     }
 
     @Override

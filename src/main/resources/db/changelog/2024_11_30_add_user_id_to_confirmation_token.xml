@@ -12,4 +12,15 @@
             </column>
         </addColumn>
     </changeSet>
+    <changeSet id="add_action_to_confirmation_token" author="Arsen">
+        <addColumn tableName="confirmation_token">
+            <column name="action" type="varchar(40)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <createIndex tableName="confirmation_token" indexName="confirmation_token_idx2">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

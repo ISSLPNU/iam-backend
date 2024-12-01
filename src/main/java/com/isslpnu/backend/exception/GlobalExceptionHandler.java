@@ -2,6 +2,7 @@ package com.isslpnu.backend.exception;
 
 import com.isslpnu.backend.api.dto.error.ErrorDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -16,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -51,15 +53,26 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorDto notFoundException(NotFoundException e) {
+        return build(e);
+    }
+
     @ExceptionHandler(InvalidParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDto invalidParameterException(InvalidParameterException e) {
-        return build(e.getMessage());
+        return build(e);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorDto exception(Exception e) {
+        return build(e);
+    }
+
+    private ErrorDto build(Exception e) {
+        log.error("Error", e);
         return build(e.getMessage());
     }
 

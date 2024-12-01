@@ -21,5 +21,8 @@ public class ConfirmationToken extends AuditableEntity {
     private String token;
     @Column(name = "user_id", updatable = false)
     private UUID userId;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "action")
+    private AuthenticationAction action;
 
 }
