@@ -30,6 +30,11 @@ mailing:
   email:
     replyTo: no-reply@isslupnu.ua
 
+google:
+  recaptcha:
+    verifyUrl: ${ISSL_PNU_RECAPTCHA_URL:https://google.default.url}
+    secret: ${ISSL_PNU_RECAPTCHA_SECRET:secret}
+
 ---
 
 spring:
