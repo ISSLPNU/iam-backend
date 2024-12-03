@@ -25,7 +25,7 @@ public class WebSecurityConfiguration {
     private SecurityFilter securityFilter;
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     }
 
@@ -35,7 +35,10 @@ public class WebSecurityConfiguration {
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(FormLoginConfigurer::disable)
                 .csrf(CsrfConfigurer::disable)
-                .authorizeHttpRequests(registry -> registry.anyRequest().permitAll());
+                .authorizeHttpRequests(registry ->
+                        registry
+                                .requestMatchers("/user/*").authenticated()
+                                .anyRequest().permitAll());
         return httpSecurity.build();
     }
 

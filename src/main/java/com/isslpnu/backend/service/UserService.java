@@ -31,6 +31,12 @@ public class UserService extends AbstractService<User> {
         return mapper.asUserDetailsDto(getOne(SessionInfo.getUserId()));
     }
 
+    public void updateTfa(boolean tfaEnabled) {
+        User user = getOne(SessionInfo.getUserId());
+        user.setTfaEnabled(tfaEnabled);
+        super.update(user);
+    }
+
     @Override
     protected JpaRepository<User, UUID> getRepository() {
         return repository;
