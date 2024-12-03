@@ -14,6 +14,7 @@ public class UserDetailsDto {
     private String firstName;
     private String lastName;
     private String email;
+    private boolean tfaEnabled;
     private Role role;
 
 }
