@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.net.CacheRequest;
-
 @Getter
 @Setter
 public class SingInRequest extends CaptchaRequest {
