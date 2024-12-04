@@ -13,6 +13,6 @@ public class SignInResponse {
     private String token;
     private boolean twoFactor;
     private boolean emailConfirmed;
-    private OAuthProvider oAuthProvider;
+    private OAuthProvider oauthProvider;
 
 }

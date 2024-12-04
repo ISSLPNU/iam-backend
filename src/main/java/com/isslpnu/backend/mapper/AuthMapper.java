@@ -24,13 +24,13 @@ public interface AuthMapper {
         return SignInResponse.builder()
                 .twoFactor(emailConfirmed)
                 .twoFactor(twoFactor)
-                .oAuthProvider(OAuthProvider.INTERNAL)
+                .oauthProvider(OAuthProvider.INTERNAL)
                 .build();
     }
 
     default SignInResponse asSignInResponse(OAuthProvider oAuthProvider){
         return SignInResponse.builder()
-                .oAuthProvider(oAuthProvider)
+                .oauthProvider(oAuthProvider)
                 .build();
     }
 
