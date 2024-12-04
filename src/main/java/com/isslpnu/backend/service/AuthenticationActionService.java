@@ -10,6 +10,7 @@ import com.isslpnu.backend.domain.TwoFactor;
 import com.isslpnu.backend.domain.User;
 import com.isslpnu.backend.exception.ValidationException;
 import com.isslpnu.backend.mapper.AuthMapper;
+import com.isslpnu.backend.repository.TwoFactorRepository;
 import com.isslpnu.backend.security.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -33,6 +34,7 @@ public class AuthenticationActionService {
 
     @Value("${default_ttl.confirmation_action}")
     private int actionTtl;
+    private final TwoFactorRepository twoFactorRepository;
 
     @Transactional
     public void confirmSignUp(AuthenticationActionRequest request) {
@@ -56,6 +58,7 @@ public class AuthenticationActionService {
 
         twoFactorService.delete(twoFactor);
         confirmationTokenService.delete(confirmationToken);
+        twoFactorRepository.delete(twoFactor);
 
         User user = userService.getByEmail(email);
         return authMapper.asSignInResponse(tokenService.generateToken(user.getId(), user.getRole()), false);
