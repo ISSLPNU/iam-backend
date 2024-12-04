@@ -7,6 +7,7 @@ import com.isslpnu.backend.api.dto.SingUpRequest;
 import com.isslpnu.backend.api.dto.action.AuthenticationActionRequest;
 import com.isslpnu.backend.api.dto.action.PasswordRestoreActionRequest;
 import com.isslpnu.backend.api.dto.action.TwoFactorRequest;
+import com.isslpnu.backend.api.validator.SignInValidator;
 import com.isslpnu.backend.api.validator.SignUpValidator;
 import com.isslpnu.backend.service.AuthenticationActionService;
 import com.isslpnu.backend.service.AuthenticationService;
@@ -26,11 +27,17 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
     private final SignUpValidator signUpValidator;
+    private final SignInValidator signInValidator;
     private final AuthenticationActionService actionService;
 
     @InitBinder("singUpRequest")
     public void initSingUpRequestBinder(WebDataBinder binder) {
         binder.addValidators(signUpValidator);
+    }
+
+    @InitBinder("singInRequest")
+    public void initSingInRequestBinder(WebDataBinder binder) {
+        binder.addValidators(signInValidator);
     }
 
     @PostMapping("/singIn")
