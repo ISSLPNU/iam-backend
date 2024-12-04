@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PatchMapping("/tfa")
-    public void updateTfa(@RequestParam boolean enabled) {
+    public void updateTfa(@RequestParam Boolean enabled) {
         service.updateTfa(enabled);
     }
 }
