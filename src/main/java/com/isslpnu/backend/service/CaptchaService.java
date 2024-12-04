@@ -31,7 +31,7 @@ public class CaptchaService {
     public void verifyCaptcha(CaptchaRequest request) {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add(SECRET_PARAM, googleRecaptchaSecretKey);
-        body.add(RESPONSE_PARAM, request.getToken());
+        body.add(RESPONSE_PARAM, request.getCaptchaToken());
         GoogleCaptchaResponse response = webClient.post()
                 .uri(googleRecaptchaVerifyUrl)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)

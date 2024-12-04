@@ -9,6 +9,6 @@ import lombok.Setter;
 public class CaptchaRequest {
 
     @NotBlank
-    private String token;
+    private String captchaToken;
 
 }
