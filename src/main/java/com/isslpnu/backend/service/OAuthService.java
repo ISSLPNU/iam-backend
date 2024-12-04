@@ -21,8 +21,8 @@ import java.util.Optional;
 public class OAuthService {
 
     private static final String FIRST_NAME = "firstName";
-    private static final String LAST_NAME = "firstName";
-    private static final String EMAIL = "firstName";
+    private static final String LAST_NAME = "lastName";
+    private static final String EMAIL = "email";
 
     private final AuthMapper authMapper;
     private final UserService userService;
