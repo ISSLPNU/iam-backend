@@ -1,6 +1,7 @@
 package com.isslpnu.backend.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.isslpnu.backend.constant.OAuthProvider;
 import com.isslpnu.backend.constant.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,5 +33,8 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "oauth_provider")
+    private OAuthProvider oAuthProvider;
 
 }

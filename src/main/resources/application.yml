@@ -23,6 +23,15 @@ spring:
   profiles:
     active: ${ISSL_PNU_ACTIVE_PROFILE:local}
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: google-client-id
+            client-secret: google-client-secret
+            provider: google
+
 server:
   port: ${ISSL_PNU_PORT:7000}
 

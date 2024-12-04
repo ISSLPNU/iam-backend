@@ -6,6 +6,7 @@ import com.isslpnu.backend.api.dto.SingInRequest;
 import com.isslpnu.backend.api.dto.SingUpRequest;
 import com.isslpnu.backend.constant.AuthenticationAction;
 import com.isslpnu.backend.constant.LoginStatus;
+import com.isslpnu.backend.constant.OAuthProvider;
 import com.isslpnu.backend.domain.ConfirmationToken;
 import com.isslpnu.backend.domain.User;
 import com.isslpnu.backend.exception.ValidationException;
@@ -50,6 +51,10 @@ public class AuthenticationService {
     @Transactional
     public SignInResponse signIn(SingInRequest request) {
         User user = userService.getByEmail(request.getEmail());
+        if (!OAuthProvider.INTERNAL.equals(user.getOAuthProvider())) {
+            return mapper.asSignInResponse(user.getOAuthProvider());
+        }
+
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             loginHistoryService.create(LoginStatus.FAILURE, "Credentials are invalid.");
             throw new ValidationException("validation.authentication.invalidCredentials", "Credentials are invalid.");
@@ -60,8 +65,7 @@ public class AuthenticationService {
         }
 
         if (user.isTfaEnabled()) {
-            String token = processTwoFactor(user);
-            return mapper.asSignInResponse(token, true);
+            return mapper.asSignInResponse(processTwoFactor(user), true);
         }
 
         loginHistoryService.create(LoginStatus.SUCCESS);

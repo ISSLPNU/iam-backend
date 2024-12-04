@@ -2,6 +2,7 @@ package com.isslpnu.backend.mapper;
 
 import com.isslpnu.backend.api.dto.SignInResponse;
 import com.isslpnu.backend.api.dto.SingUpRequest;
+import com.isslpnu.backend.constant.OAuthProvider;
 import com.isslpnu.backend.domain.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,6 +16,7 @@ public interface AuthMapper {
     @Mapping(target = "role", constant = "USER")
     User asUser(SingUpRequest request);
 
+    @Mapping(target = "oAuthProvider", constant = "INTERNAL")
     @Mapping(target = "emailConfirmed", constant = "true")
     SignInResponse asSignInResponse(String token, boolean twoFactor);
 
@@ -22,6 +24,13 @@ public interface AuthMapper {
         return SignInResponse.builder()
                 .twoFactor(emailConfirmed)
                 .twoFactor(twoFactor)
+                .oAuthProvider(OAuthProvider.INTERNAL)
+                .build();
+    }
+
+    default SignInResponse asSignInResponse(OAuthProvider oAuthProvider){
+        return SignInResponse.builder()
+                .oAuthProvider(oAuthProvider)
                 .build();
     }
 

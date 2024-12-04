@@ -1,5 +1,6 @@
 package com.isslpnu.backend.api.dto;
 
+import com.isslpnu.backend.constant.OAuthProvider;
 import com.isslpnu.backend.constant.Role;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,5 +17,6 @@ public class UserDetailsDto {
     private String email;
     private boolean tfaEnabled;
     private Role role;
+    private OAuthProvider oAuthProvider;
 
 }

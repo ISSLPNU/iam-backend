@@ -34,12 +34,16 @@ public class SignInValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         SingInRequest request = (SingInRequest) target;
+        checkForThrottle();
+        captchaService.verifyCaptcha(request);
+    }
+
+    private void checkForThrottle() {
         String ip = SessionInfo.getIp();
         LocalDateTime dateTime = LocalDateTime.now().minusMinutes(period);
         int counter = loginHistoryService.countByIpAndStatusAndCreatedAtAfter(ip, LoginStatus.FAILURE, dateTime);
         if (counter > maxAttempts) {
             throw new RequestThrottleException("Too many sign in requests :)");
         }
-        captchaService.verifyCaptcha(request);
     }
 }
