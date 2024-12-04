@@ -41,9 +41,9 @@ mailing:
 
 google:
   recaptcha:
-    verifyUrl: ${ISSL_PNU_RECAPTCHA_URL:https://www.google.com/recaptcha/api/siteverify}
+    verifyUrl: ${ISSL_PNU_RECAPTCHA_URL}
     key:
-      secret: ${ISSL_PNU_RECAPTCHA_SECRET_KEY:6LdAepIqAAAAAPy69tEqw04-XU2gKjDHISF-MwQM}
+      secret: ${ISSL_PNU_RECAPTCHA_SECRET_KEY}
 
 ---
 
