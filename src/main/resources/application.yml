@@ -28,8 +28,8 @@ spring:
       client:
         registration:
           google:
-            client-id: google-client-id
-            client-secret: google-client-secret
+            client-id: ${ISSL_PNU_OAUTH_CLIENT_ID}
+            client-secret: ${ISSL_PNU_OAUTH_CLIENT_SECRET}
             provider: google
 
 server:

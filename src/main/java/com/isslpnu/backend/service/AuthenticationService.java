@@ -65,11 +65,11 @@ public class AuthenticationService {
         }
 
         if (user.isTfaEnabled()) {
-            return mapper.asSignInResponse(processTwoFactor(user), true);
+            return mapper.asSignInResponse(processTwoFactor(user), user.getOAuthProvider(), true);
         }
 
         loginHistoryService.create(LoginStatus.SUCCESS);
-        return mapper.asSignInResponse(tokenService.generateToken(user.getId(), user.getRole()), false);
+        return mapper.asSignInResponse(tokenService.generateToken(user.getId(), user.getRole()), user.getOAuthProvider(), false);
     }
 
 

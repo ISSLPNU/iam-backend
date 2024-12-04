@@ -16,9 +16,8 @@ public interface AuthMapper {
     @Mapping(target = "role", constant = "USER")
     User asUser(SingUpRequest request);
 
-    @Mapping(target = "oAuthProvider", constant = "INTERNAL")
     @Mapping(target = "emailConfirmed", constant = "true")
-    SignInResponse asSignInResponse(String token, boolean twoFactor);
+    SignInResponse asSignInResponse(String token, OAuthProvider oAuthProvider, boolean twoFactor);
 
     default SignInResponse asSignInResponse(boolean twoFactor, boolean emailConfirmed) {
         return SignInResponse.builder()

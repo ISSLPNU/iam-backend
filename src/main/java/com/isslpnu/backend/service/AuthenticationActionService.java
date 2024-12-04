@@ -61,7 +61,7 @@ public class AuthenticationActionService {
         twoFactorRepository.delete(twoFactor);
 
         User user = userService.getByEmail(email);
-        return authMapper.asSignInResponse(tokenService.generateToken(user.getId(), user.getRole()), false);
+        return authMapper.asSignInResponse(tokenService.generateToken(user.getId(), user.getRole()), user.getOAuthProvider(), false);
     }
 
     @Transactional
