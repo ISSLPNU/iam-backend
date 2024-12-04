@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="add_user_id_to_confirmation_token" author="Arsen">
+        <addColumn tableName="confirmation_token">
+            <column name="user_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="confirmation_token_fk1" referencedTableName="app_user"
+                             referencedColumnNames="id"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="add_action_to_confirmation_token" author="Arsen">
+        <addColumn tableName="confirmation_token">
+            <column name="action" type="varchar(40)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <createIndex tableName="confirmation_token" indexName="confirmation_token_idx2">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

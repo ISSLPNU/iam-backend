@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: "postgres:16.2"
+    container_name: "isslpnu-postgres"
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./create-db.sql:/docker-entrypoint-initdb.d/create-db.sql
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: "isslpnu-mailhog"
+    ports:
+      - "1025:1025"
+      - "8025:8025"

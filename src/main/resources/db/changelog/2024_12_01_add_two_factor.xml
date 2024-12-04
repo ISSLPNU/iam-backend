@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="add_two_factor" author="Arsen">
+        <createTable tableName="two_factor">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKeyName="two_factor_pk" primaryKey="true"/>
+            </column>
+            <column name="confirmation_token_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="two_factor_fk1"
+                             referencedTableName="confirmation_token" referencedColumnNames="id"/>
+            </column>
+            <column name="secret" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="two_factor" indexName="two_factor_idx1">
+            <column name="confirmation_token_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

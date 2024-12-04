@@ -1,0 +1,88 @@
+spring:
+  application:
+    name: iam-backend
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog-master.xml
+    database-change-log-lock-table: dbchangeloglock_issl_pnu
+    liquibase-schema: liquibase
+    default-schema: iam_isslpnu
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: ${spring.liquibase.default-schema}
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  profiles:
+    active: ${ISSL_PNU_ACTIVE_PROFILE:local}
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${ISSL_PNU_OAUTH_CLIENT_ID}
+            client-secret: ${ISSL_PNU_OAUTH_CLIENT_SECRET}
+            provider: google
+
+server:
+  port: ${ISSL_PNU_PORT:7000}
+
+mailing:
+  email:
+    replyTo: no-reply@isslupnu.ua
+
+google:
+  recaptcha:
+    verifyUrl: ${ISSL_PNU_RECAPTCHA_URL}
+    key:
+      secret: ${ISSL_PNU_RECAPTCHA_SECRET_KEY}
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  liquibase:
+    contexts: local
+    user: postgres
+    password: postgres
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/iam_isslpnu_db
+    username: iam_isslpnu_user
+    password: 12345
+
+  mail:
+    host: localhost
+    port: 1025
+    protocol: smtp
+    default-encoding: UTF-8
+
+  jpa:
+    show-sql: true
+
+security:
+  secret: SecuritySecret
+  lifetime: 172800
+  starts: Bearer
+
+default_ttl:
+  confirmation_action: 30
+
+auth:
+  max_attempts: 5
+  period: 10
+
+url:
+  frontend_base: http://localhost:5173
+  action: ${url.frontend_base}/action/{token}
