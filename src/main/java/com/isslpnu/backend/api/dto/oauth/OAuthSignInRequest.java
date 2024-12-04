@@ -13,6 +13,6 @@ public class OAuthSignInRequest {
     @NotBlank
     private String token;
     @NotNull
-    private OAuthProvider oAuthProvider;
+    private OAuthProvider provider;
 
 }

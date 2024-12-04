@@ -6,6 +6,7 @@ import com.isslpnu.backend.api.dto.SignInResponse;
 import com.isslpnu.backend.api.dto.oauth.OAuthSignInRequest;
 import com.isslpnu.backend.constant.Role;
 import com.isslpnu.backend.domain.User;
+import com.isslpnu.backend.exception.InvalidParameterException;
 import com.isslpnu.backend.mapper.AuthMapper;
 import com.isslpnu.backend.security.service.TokenService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -31,6 +33,10 @@ public class OAuthService {
 
     public SignInResponse signIn(OAuthSignInRequest request) {
         Map<String, String> data = verify(request.getToken());
+        if (Objects.isNull(data)) {
+            throw new InvalidParameterException("Invalid oauth token.");
+        }
+
         if (userService.existsByEmail(data.get(EMAIL))) {
             User user = userService.getByEmail(data.get(EMAIL));
             return authMapper.asSignInResponse(tokenService.generateToken(user.getId(), user.getRole()), false);
@@ -43,7 +49,7 @@ public class OAuthService {
         user.setTfaEnabled(false);
         user.setEmailConfirmed(true);
         user.setRole(Role.USER);
-        user.setOAuthProvider(request.getOAuthProvider());
+        user.setOAuthProvider(request.getProvider());
         User created = userService.create(user);
 
         return authMapper.asSignInResponse(tokenService.generateToken(created.getId(), created.getRole()), false);

@@ -17,6 +17,6 @@ public class UserDetailsDto {
     private String email;
     private boolean tfaEnabled;
     private Role role;
-    private OAuthProvider oAuthProvider;
+    private OAuthProvider oauthProvider;
 
 }
