@@ -14,6 +14,7 @@ public interface AuthMapper {
     @Mapping(target = "emailConfirmed", constant = "false")
     @Mapping(target = "tfaEnabled", constant = "false")
     @Mapping(target = "role", constant = "USER")
+    @Mapping(target = "oauthProvider", constant = "INTERNAL")
     User asUser(SingUpRequest request);
 
     @Mapping(target = "emailConfirmed", constant = "true")

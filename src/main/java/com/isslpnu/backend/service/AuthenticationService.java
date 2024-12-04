@@ -51,8 +51,8 @@ public class AuthenticationService {
     @Transactional
     public SignInResponse signIn(SingInRequest request) {
         User user = userService.getByEmail(request.getEmail());
-        if (!OAuthProvider.INTERNAL.equals(user.getOAuthProvider())) {
-            return mapper.asSignInResponse(user.getOAuthProvider());
+        if (!OAuthProvider.INTERNAL.equals(user.getOauthProvider())) {
+            return mapper.asSignInResponse(user.getOauthProvider());
         }
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
@@ -65,11 +65,11 @@ public class AuthenticationService {
         }
 
         if (user.isTfaEnabled()) {
-            return mapper.asSignInResponse(processTwoFactor(user), user.getOAuthProvider(), true);
+            return mapper.asSignInResponse(processTwoFactor(user), user.getOauthProvider(), true);
         }
 
         loginHistoryService.create(LoginStatus.SUCCESS);
-        return mapper.asSignInResponse(tokenService.generateToken(user.getId(), user.getRole()), user.getOAuthProvider(), false);
+        return mapper.asSignInResponse(tokenService.generateToken(user.getId(), user.getRole()), user.getOauthProvider(), false);
     }
 
 

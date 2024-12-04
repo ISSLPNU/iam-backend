@@ -39,7 +39,7 @@ public class OAuthService {
 
         if (userService.existsByEmail(data.get(EMAIL))) {
             User user = userService.getByEmail(data.get(EMAIL));
-            return authMapper.asSignInResponse(tokenService.generateToken(user.getId(), user.getRole()), user.getOAuthProvider(), false);
+            return authMapper.asSignInResponse(tokenService.generateToken(user.getId(), user.getRole()), user.getOauthProvider(), false);
         }
 
         User user = new User();
@@ -49,10 +49,10 @@ public class OAuthService {
         user.setTfaEnabled(false);
         user.setEmailConfirmed(true);
         user.setRole(Role.USER);
-        user.setOAuthProvider(request.getProvider());
+        user.setOauthProvider(request.getProvider());
         User created = userService.create(user);
 
-        return authMapper.asSignInResponse(tokenService.generateToken(created.getId(), created.getRole()), user.getOAuthProvider(), false);
+        return authMapper.asSignInResponse(tokenService.generateToken(created.getId(), created.getRole()), user.getOauthProvider(), false);
     }
 
     private Map<String, String> verify(String token) {

@@ -35,6 +35,6 @@ public class User extends BaseEntity {
     private Role role;
     @Enumerated(EnumType.STRING)
     @Column(name = "oauth_provider")
-    private OAuthProvider oAuthProvider;
+    private OAuthProvider oauthProvider;
 
 }
