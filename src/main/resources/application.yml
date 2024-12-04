@@ -34,7 +34,7 @@ google:
   recaptcha:
     verifyUrl: ${ISSL_PNU_RECAPTCHA_URL:https://www.google.com/recaptcha/api/siteverify}
     key:
-      secret: ${ISSL_PNU_RECAPTCHA_SECRET_KEY:6LdydZIqAAAAAANlT-WM46qG0nkqpRzoXdLNks-x}
+      secret: ${ISSL_PNU_RECAPTCHA_SECRET_KEY:6LdAepIqAAAAAPy69tEqw04-XU2gKjDHISF-MwQM}
 
 ---
 
