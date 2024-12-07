@@ -6,6 +6,8 @@ import com.isslpnu.backend.constant.AuthenticationAction;
 import com.isslpnu.backend.constant.Role;
 import com.isslpnu.backend.exception.InvalidParameterException;
 import com.isslpnu.backend.security.model.SessionDetails;
+import com.isslpnu.backend.security.model.UserDetails;
+import com.isslpnu.backend.security.util.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -41,15 +43,18 @@ public class TokenService {
     }
 
     public void createSession(HttpServletRequest request) {
-        SessionDetails sessionDetails = new SessionDetails();
         Optional.ofNullable(request.getHeader(AUTHORIZATION)).map(jwtService::verifyToken).ifPresent(decodedJwt -> {
-            sessionDetails.setId(decodedJwt.getSubject());
-            sessionDetails.setRole(decodedJwt.getClaim(CLAIM_ROLE).as(Role.class));
-            sessionDetails.setAuthorities(List.of(new SimpleGrantedAuthority(String.join("_", ROLE_PREFIX, sessionDetails.getRole().name()))));
+            UserDetails userDetails = new UserDetails();
+            userDetails.setId(decodedJwt.getSubject());
+            userDetails.setRole(decodedJwt.getClaim(CLAIM_ROLE).as(Role.class));
+            userDetails.setAuthorities(List.of(new SimpleGrantedAuthority(String.join("_", ROLE_PREFIX, userDetails.getRole().name()))));
+
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
         });
 
+        SessionDetails sessionDetails = new SessionDetails();
         sessionDetails.setIp(StringUtils.firstNonBlank(request.getHeader(ALB_CLIENT_IP), request.getRemoteAddr()));
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(sessionDetails, null, sessionDetails.getAuthorities()));
+        SessionUtil.setSessionDetails(sessionDetails);
     }
 
     public String decodeTokenFromRequest(AuthenticationActionRequest request, AuthenticationAction validAction) {

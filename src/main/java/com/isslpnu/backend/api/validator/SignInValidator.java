@@ -3,7 +3,8 @@ package com.isslpnu.backend.api.validator;
 import com.isslpnu.backend.api.dto.SingInRequest;
 import com.isslpnu.backend.constant.LoginStatus;
 import com.isslpnu.backend.exception.RequestThrottleException;
-import com.isslpnu.backend.security.util.SessionInfo;
+import com.isslpnu.backend.security.util.SessionUtil;
+import com.isslpnu.backend.security.util.UserInfo;
 import com.isslpnu.backend.service.CaptchaService;
 import com.isslpnu.backend.service.LoginHistoryService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class SignInValidator implements Validator {
     }
 
     private void checkForThrottle() {
-        String ip = SessionInfo.getIp();
+        String ip = SessionUtil.getIp();
         LocalDateTime dateTime = LocalDateTime.now().minusMinutes(period);
         int counter = loginHistoryService.countByIpAndStatusAndCreatedAtAfter(ip, LoginStatus.FAILURE, dateTime);
         if (counter > maxAttempts) {

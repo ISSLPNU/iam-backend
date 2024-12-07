@@ -21,13 +21,11 @@ public class LoginHistoryService extends AbstractService<LoginHistory> {
     private final LoginHistoryMapper mapper;
     private final LoginHistoryRepository repository;
 
-    @Async
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void create(LoginStatus status) {
         create(status, null);
     }
 
-    @Async
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void create(LoginStatus status, String error) {
         super.create(mapper.asLoginHistory(status, error));
